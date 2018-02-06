@@ -12,7 +12,7 @@ class App extends Component {
     console.log('data: ',data);
     return (
       <div className="App">
-
+        <h1>Super Blog</h1>
       </div>
     );
   }
