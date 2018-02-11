@@ -1,35 +1,47 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import data from './data';
+import UserProfile from './userProfile/user_profile';
+import FriendList from './friendsList/friend_list';
+
 
 class App extends Component {
   constructor(props){
     super(props);
-    this.data = props.data;
+    this.data = this.props.data;
   }
-  random(array){
-    console.log(array.length);
-    
-    let random = Math.floor(Math.random()*array.length);
-    return random;
+  createHeader(user){
+    return (
+        <header className="topHeader">
+          <h1 className="title">Super Blog!</h1>
+          <UserProfile user={user}/>
+        </header>
+    );
+  }
+ 
+
+  displayBlogList(blogs){
+    return blogs.map( (singleBlog, index) => this.displaySingleBlogSummary(singleBlog, index))
+  }
+  displaySingleBlogSummary(post, index){
+    return (
+      <div className="post" key={index}>
+        <div className="postTitle">{post.title}</div>
+        <article>{post.content}</article>
+      </div>
+    )
   }
   render() {
-    console.log('data: ',data);
-    let random = this.random(data.user.favoriteQuotes);
-    console.log(random);
+    console.log('data: ',this.data);
     return (
       <div className="App">
-        <div className="topHeader">
-          <h1>Super Blog</h1>
-          <div className="userProfile">
-            <div className="name">{data.user.name}</div>
-            <div className="quote">{data.user.favoriteQuotes[random]}</div>
-            <div className="avatar" style={{
-                backgroundImage:`url(${data.user.avatar})`,
-            }}></div>
+        {this.createHeader(this.data.user)}
+        {this.createFriendList(this.data.user.friendsList)}
+        <main>
+          <div id="topPosts">
+            <h3>Top Posts:</h3>
+            {this.displayBlogList(this.data.pageData.topPosts)}
           </div>
-        </div>
+        </main>
       </div>
     );
   }
