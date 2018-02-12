@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import UserProfile from './userProfile/user_profile';
 import FriendList from './friendsList/friend_list';
-
+import BlogSummary from './blog/blog_summary'
 
 class App extends Component {
   constructor(props){
@@ -18,24 +18,15 @@ class App extends Component {
     );
   }
  
-
   displayBlogList(blogs){
-    return blogs.map( (singleBlog, index) => this.displaySingleBlogSummary(singleBlog, index))
+    return blogs.map( (blogs, index) => <BlogSummary post = {blogs} key = {index}/>)
   }
-  displaySingleBlogSummary(post, index){
-    return (
-      <div className="post" key={index}>
-        <div className="postTitle">{post.title}</div>
-        <article>{post.content}</article>
-      </div>
-    )
-  }
+
   render() {
-    console.log('data: ',this.data);
     return (
       <div className="App">
         {this.createHeader(this.data.user)}
-        {this.createFriendList(this.data.user.friendsList)}
+        <FriendList friends={this.data.user.friendsList}/>
         <main>
           <div id="topPosts">
             <h3>Top Posts:</h3>
